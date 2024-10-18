@@ -7,22 +7,6 @@ import Footer from "./components/Footer";
 import SubHeader from "./components/SubHeader";
 
 function App() {
-  // axios({
-  //   method: 'get',
-  //   url: 'https://fakerestapi.azurewebsites.net/'
-  // })
-
-  useEffect(() => {
-    axios
-      .get("https://fakerestapi.azurewebsites.net/api/v1/Books")
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
-
   return (
     <>
       <div className="flex flex-col min-h-screen">

@@ -10,7 +10,7 @@ function Header() {
         "flex",
         "justify-between",
         "min-h-20",
-        "px-8",
+        "px-20",
       )}
     >
       <h1 className={clsx("text-white", "text-3xl", "flex", "items-center")}>Biblioteca</h1>
@@ -21,6 +21,9 @@ function Header() {
           </li>
           <li className={clsx("text-white", "text-sm", "p-2")}>
             <Link to="/books">Livros</Link>
+          </li>
+          <li className={clsx("text-white", "text-sm", "p-2")}>
+            <Link to="/list">list</Link>
           </li>
         </ul>
       </nav>
