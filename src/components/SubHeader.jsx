@@ -11,7 +11,8 @@ const SubHeader = () => {
         "justify-between",
         "h-28",
         "items-center",
-        "px-20"
+        "px-20",
+        "mb-4",
       )}
     >
       <div className={clsx("flex", "h-3/4")}>

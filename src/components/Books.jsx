@@ -29,13 +29,15 @@ const Books = () => {
       });
   }, []);
 
+  console.log(books)
+
   return (
     <div className={clsx("flex", "justify-evenly", "flex-wrap")}>
       {Array.isArray(books) && books.length > 0 ? (
         books.map((book) => {
           const findImg = images.find((img) => img.idBook === book.id);
           const imgUrl = findImg.url;
-          return <Card key={book.id} title={book.title} image={imgUrl} />;
+          return <Card key={book.id} title={book.title} image={imgUrl} description={book.description} />;
         })
       ) : (
         <p>Carregando...</p>

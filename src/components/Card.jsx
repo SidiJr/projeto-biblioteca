@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React, { useState } from "react";
 
-const Card = ({ title, image }) => {
+const Card = ({ title, image, description }) => {
   const [imgSrc, setImgSrc] = useState(image);
 
   const handleError = () => {
@@ -14,20 +14,24 @@ const Card = ({ title, image }) => {
     <div
       className={clsx(
         "bg-white",
-        "w-1/5",
+        "w-1/6",
         "flex",
         "m-4",
         "flex-col",
-        "items-center"
+        "items-center",
+        "text-center",
+        "gap-y-4",
+        "h-80",
       )}
     >
-      {title}
+      <p>{title}</p>
       <img
         src={imgSrc}
         alt="Foto do livro"
         className={clsx("h-1/2", "object-contain")}
         onError={handleError}
       />
+      <p>{description}</p>
     </div>
   );
 };
