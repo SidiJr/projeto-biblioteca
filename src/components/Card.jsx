@@ -14,14 +14,14 @@ const Card = ({ title, image, description }) => {
     <div
       className={clsx(
         "bg-white",
-        "w-1/6",
+        "w-1/5",
         "flex",
         "m-4",
         "flex-col",
         "items-center",
         "text-center",
         "gap-y-4",
-        "h-80",
+        "h-96",
       )}
     >
       <p>{title}</p>

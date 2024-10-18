@@ -2,6 +2,7 @@ import axios from "axios";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
+import Loading from "./Loading";
 
 const Books = () => {
   const [books, setBooks] = useState([]);
@@ -36,11 +37,11 @@ const Books = () => {
       {Array.isArray(books) && books.length > 0 ? (
         books.map((book) => {
           const findImg = images.find((img) => img.idBook === book.id);
-          const imgUrl = findImg.url;
+          const imgUrl = findImg?.url;
           return <Card key={book.id} title={book.title} image={imgUrl} description={book.description} />;
         })
       ) : (
-        <p>Carregando...</p>
+        <Loading />
       )}
     </div>
   );
