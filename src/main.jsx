@@ -7,7 +7,7 @@ import Books from "./components/Books.jsx";
 import Home from "./components/Home.jsx";
 import ErrorPage from "./components/ErrorPage.jsx";
 import BooksDetails from "./components/BooksDetails.jsx";
-import List from "./components/List";
+import Card from "./components/Card.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,8 +28,8 @@ const router = createBrowserRouter([
         element: <BooksDetails />,
       },
       {
-        path: "list/",
-        element: <List />,
+        path: "card/",
+        element: <Card />,
       },
     ]
   },

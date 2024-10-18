@@ -15,7 +15,7 @@ const SubHeader = () => {
       )}
     >
       <div className={clsx("flex", "h-3/4")}>
-        <img src="images/logo1.png" alt="Logo" />
+        <img src="images/logo_branco.png" alt="Logo" />
       </div>
     </div>
   );

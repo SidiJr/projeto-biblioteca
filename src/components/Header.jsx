@@ -22,9 +22,6 @@ function Header() {
           <li className={clsx("text-white", "text-sm", "p-2")}>
             <Link to="/books">Livros</Link>
           </li>
-          <li className={clsx("text-white", "text-sm", "p-2")}>
-            <Link to="/list">list</Link>
-          </li>
         </ul>
       </nav>
     </header>
