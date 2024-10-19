@@ -12,6 +12,8 @@ function Header() {
       setTitle("Home");
     } else if (location.pathname === "/books") {
       setTitle("Livros");
+    } else if (location.pathname === "/form") {
+      setTitle("Cadastrar Livro");
     } else {
       setTitle("");
     }
