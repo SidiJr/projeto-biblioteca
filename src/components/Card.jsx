@@ -9,6 +9,7 @@ const Card = ({
   excerpt,
   publishDate,
   pageCount,
+  autorName,
 }) => {
   const [imgSrc, setImgSrc] = useState(image);
   const [showModal, setShowModal] = useState(false);
@@ -30,7 +31,7 @@ const Card = ({
         "gap-y-4",
         "h-96",
         "cursor-pointer",
-        "rounded-md",
+        "rounded-md"
       )}
       onClick={() => {
         setShowModal(true);
@@ -56,6 +57,7 @@ const Card = ({
         excerpt={excerpt}
         pageCount={pageCount}
         publishDate={publishDate}
+        autorName={autorName}
       />
       <div className={clsx("flex", "w-full")}>
         <button
@@ -80,7 +82,7 @@ const Card = ({
             "p-2",
             "text-white",
             "w-1/2",
-            "mr-2",
+            "mr-2"
           )}
         >
           Excluir

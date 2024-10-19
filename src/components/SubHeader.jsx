@@ -1,7 +1,15 @@
 import clsx from "clsx";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SubHeader = ({ title }) => {
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/add");
+  };
+
   return (
     <div
       className={clsx(
@@ -39,6 +47,7 @@ const SubHeader = ({ title }) => {
             "flex",
             "self-center"
           )}
+          onClick={handleClick}
         >
           Adicionar Livro
         </button>

@@ -2,7 +2,17 @@ import clsx from "clsx";
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
-const BookDetails = ({ showModal, onClose, title, description, image, excerpt, publishDate, pageCount }) => {
+const BookDetails = ({
+  showModal,
+  onClose,
+  title,
+  description,
+  image,
+  excerpt,
+  publishDate,
+  pageCount,
+  autorName,
+}) => {
   const modalRef = useRef();
 
   const handleClickOutside = (event) => {
@@ -71,12 +81,15 @@ const BookDetails = ({ showModal, onClose, title, description, image, excerpt, p
           src={image}
           alt="Foto do livro"
           className={clsx("w-1/4", "object-contain")}
-          //onError={handleError}
+          onError={(e) => {
+            e.target.src = "images/livro_nao_encontrado.png";
+          }}
         />
         <p className={clsx("flex", "justify-center")}>{description}</p>
         <p className={clsx("flex", "text-center")}>{excerpt}</p>
         <p>Número de páginas: {pageCount}</p>
-        <p>Data de lançamento: {publishDate}</p>
+        <p>Data de lançamento: {new Date(publishDate).toLocaleDateString()}</p>
+        <p>Autor: {autorName}</p>
         <button
           className={clsx(
             "bg-red-400",
