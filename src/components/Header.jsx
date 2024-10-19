@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 
 function Header() {
+
   return (
     <header
       className={clsx(
@@ -21,6 +22,9 @@ function Header() {
           </li>
           <li className={clsx("text-white", "text-sm", "p-2")}>
             <Link to="/books">Livros</Link>
+          </li>
+          <li className={clsx("text-white", "text-sm", "p-2")}>
+            <Link to="">Modo Administrador</Link>
           </li>
         </ul>
       </nav>

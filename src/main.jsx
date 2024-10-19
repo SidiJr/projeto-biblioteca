@@ -27,10 +27,10 @@ const router = createBrowserRouter([
         path: "books/:id",
         element: <BooksDetails />,
       },
-      {
-        path: "card/",
-        element: <Card />,
-      },
+      // {
+      //   path: "card/",
+      //   element: <Card />,
+      // },
     ]
   },
 ]);

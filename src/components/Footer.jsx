@@ -13,7 +13,8 @@ const Footer = () => {
         "px-8",
         "items-center",
         "relative",
-        "bottom-0"
+        "bottom-0",
+        "mt-4"
       )}
     >
       <p className={clsx("text-white", "text-sm")}>&copy; 2024 Minha Loja. Todos os direitos reservados.</p>

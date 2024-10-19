@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import React, { useState } from "react";
+import BookDetails from "./BookDetails";
 
-const Card = ({ title, image, description }) => {
+const Card = ({ title, image, description, excerpt, publishDate, pageCount }) => {
   const [imgSrc, setImgSrc] = useState(image);
+  const [showModal, setShowModal] = useState(false);
 
   const handleError = () => {
     setImgSrc("images/livro_nao_encontrado.png");
   };
-
-  console.log(imgSrc)
 
   return (
     <div
@@ -22,9 +22,14 @@ const Card = ({ title, image, description }) => {
         "text-center",
         "gap-y-4",
         "h-96",
+        "cursor-pointer",
+        "rounded-md"
       )}
+      onClick={() => {
+        setShowModal(true);
+      }}
     >
-      <p>{title}</p>
+      <h1 className={clsx("text-green-600", "text-xl")}>{title}</h1>
       <img
         src={imgSrc}
         alt="Foto do livro"
@@ -32,6 +37,19 @@ const Card = ({ title, image, description }) => {
         onError={handleError}
       />
       <p>{description}</p>
+      {/* <button >Detalhes</button> */}
+      <BookDetails
+        showModal={showModal}
+        onClose={() => {
+          setShowModal(false);
+        }}
+        title={title}
+        description={description}
+        image={imgSrc}
+        excerpt={excerpt}
+        pageCount={pageCount}
+        publishDate={publishDate}
+      />
     </div>
   );
 };
