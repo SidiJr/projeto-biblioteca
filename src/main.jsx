@@ -6,8 +6,6 @@ import App from "./App.jsx";
 import Books from "./components/Books.jsx";
 import Home from "./components/Home.jsx";
 import ErrorPage from "./components/ErrorPage.jsx";
-import BooksDetails from "./components/BooksDetails.jsx";
-import Card from "./components/Card.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,10 +21,10 @@ const router = createBrowserRouter([
         path: "/books",
         element: <Books />,
       },
-      {
-        path: "books/:id",
-        element: <BooksDetails />,
-      },
+      // {
+      //   path: "books/:id",
+      //   element: <BookDetails />,
+      // },
       // {
       //   path: "card/",
       //   element: <Card />,

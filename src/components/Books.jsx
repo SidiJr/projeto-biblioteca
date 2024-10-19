@@ -3,16 +3,10 @@ import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import Loading from "./Loading";
-import { useOutletContext } from "react-router-dom";
 
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [images, setImages] = useState([]);
-
-  const { setTitle } = useOutletContext();
-  useEffect(() => {
-    setTitle("Livros");
-  }, [setTitle]);
 
   useEffect(() => {
     axios
@@ -40,7 +34,6 @@ const Books = () => {
     <div className={clsx("flex", "justify-evenly", "flex-wrap")}>
       {Array.isArray(books) && books.length > 0 ? (
         books.map((book) => {
-          console.log(book);
           const findImg = images.find((img) => img.idBook === book.id);
           const imgUrl = findImg?.url;
           return (

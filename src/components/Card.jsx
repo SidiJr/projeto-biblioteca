@@ -2,7 +2,14 @@ import clsx from "clsx";
 import React, { useState } from "react";
 import BookDetails from "./BookDetails";
 
-const Card = ({ title, image, description, excerpt, publishDate, pageCount }) => {
+const Card = ({
+  title,
+  image,
+  description,
+  excerpt,
+  publishDate,
+  pageCount,
+}) => {
   const [imgSrc, setImgSrc] = useState(image);
   const [showModal, setShowModal] = useState(false);
 
@@ -23,7 +30,7 @@ const Card = ({ title, image, description, excerpt, publishDate, pageCount }) =>
         "gap-y-4",
         "h-96",
         "cursor-pointer",
-        "rounded-md"
+        "rounded-md",
       )}
       onClick={() => {
         setShowModal(true);
@@ -50,6 +57,35 @@ const Card = ({ title, image, description, excerpt, publishDate, pageCount }) =>
         pageCount={pageCount}
         publishDate={publishDate}
       />
+      <div className={clsx("flex", "w-full")}>
+        <button
+          className={clsx(
+            "bg-yellow-400",
+            "rounded-md",
+            "hover:bg-yellow-300",
+            "p-2",
+            "text-white",
+            "w-1/2",
+            "ml-2",
+            "mr-2"
+          )}
+        >
+          Editar
+        </button>
+        <button
+          className={clsx(
+            "bg-red-400",
+            "rounded-md",
+            "hover:bg-red-300",
+            "p-2",
+            "text-white",
+            "w-1/2",
+            "mr-2",
+          )}
+        >
+          Excluir
+        </button>
+      </div>
     </div>
   );
 };
