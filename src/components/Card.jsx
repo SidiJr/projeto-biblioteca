@@ -3,6 +3,8 @@ import React, { useContext, useState } from "react";
 import BookDetails from "./BookDetails";
 import { useNavigate } from "react-router-dom";
 import { EditingContext } from "../contexts/EditingContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Card = ({
   title,
@@ -12,7 +14,7 @@ const Card = ({
   publishDate,
   pageCount,
   authorName,
-  bookId
+  bookId,
 }) => {
   const [imgSrc, setImgSrc] = useState(image);
   const [showModal, setShowModal] = useState(false);
@@ -29,8 +31,18 @@ const Card = ({
     navigate("/form", { state: { isEditing: true, bookId: bookId } });
   };
 
-  const handleDelete = () => {
-    navigate("");
+  const handleDelete = (event) => {
+    event.stopPropagation();
+    axios
+      .delete(`https://fakerestapi.azurewebsites.net/api/v1/Books/${bookId}`)
+      .then((response) => {
+        console.log("Livro deletado, id:", bookId);
+        toast.success("Livro deletado com sucesso!");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Erro ao deletar o livro.");
+      });
   };
 
   return (
@@ -101,7 +113,7 @@ const Card = ({
           )}
           onClick={handleDelete}
         >
-          Excluir
+          Deletar
         </button>
       </div>
     </div>

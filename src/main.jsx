@@ -26,14 +26,6 @@ const router = createBrowserRouter([
         path: "/form",
         element: <Form />,
       },
-      // {
-      //   path: "books/:id",
-      //   element: <BookDetails />,
-      // },
-      // {
-      //   path: "card/",
-      //   element: <Card />,
-      // },
     ]
   },
 ]);

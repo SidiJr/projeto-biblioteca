@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -17,7 +17,6 @@ const Form = () => {
   const location = useLocation();
   const isEditing = location.state?.isEditing || false;
   const bookId = location.state?.bookId;
-  const [bookData, setBookData] = useState();
 
   const onSubmit = async (data) => {
     const bookAdd = {

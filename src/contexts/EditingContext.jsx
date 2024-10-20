@@ -1,6 +1,5 @@
 import React, { createContext, useState } from 'react';
 
-// Crie o contexto
 export const EditingContext = createContext();
 
 export const EditingProvider = ({ children }) => {
