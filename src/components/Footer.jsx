@@ -17,7 +17,7 @@ const Footer = () => {
         "mt-4"
       )}
     >
-      <p className={clsx("text-white", "text-sm")}>&copy; 2024 Minha Loja. Todos os direitos reservados.</p>
+      <p className={clsx("text-white", "text-sm")}>&copy; 2024 Todos os direitos reservados.</p>
     </footer>
   )
 }

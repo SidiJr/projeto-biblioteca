@@ -97,7 +97,8 @@ const BookDetails = ({
             "w-1/6",
             "rounded-md",
             "hover:bg-red-300",
-            "mb-4"
+            "mb-4",
+            "text-white"
           )}
           onClick={onClose}
         >

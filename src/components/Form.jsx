@@ -12,6 +12,7 @@ const Form = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm();
 
   const location = useLocation();
@@ -49,6 +50,7 @@ const Form = () => {
           console.log(err);
         });
     }
+    reset();
   };
 
   useEffect(() => {
