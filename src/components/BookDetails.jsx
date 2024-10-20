@@ -11,7 +11,7 @@ const BookDetails = ({
   excerpt,
   publishDate,
   pageCount,
-  autorName,
+  authorName,
 }) => {
   const modalRef = useRef();
 
@@ -89,7 +89,7 @@ const BookDetails = ({
         <p className={clsx("flex", "text-center")}>{excerpt}</p>
         <p>Número de páginas: {pageCount}</p>
         <p>Data de lançamento: {new Date(publishDate).toLocaleDateString()}</p>
-        <p>Autor: {autorName}</p>
+        <p>Autor: {authorName}</p>
         <button
           className={clsx(
             "bg-red-400",

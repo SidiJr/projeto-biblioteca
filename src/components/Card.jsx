@@ -1,6 +1,8 @@
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import BookDetails from "./BookDetails";
+import { useNavigate } from "react-router-dom";
+import { EditingContext } from "../contexts/EditingContext";
 
 const Card = ({
   title,
@@ -9,13 +11,26 @@ const Card = ({
   excerpt,
   publishDate,
   pageCount,
-  autorName,
+  authorName,
+  bookId
 }) => {
   const [imgSrc, setImgSrc] = useState(image);
   const [showModal, setShowModal] = useState(false);
+  const { setIsEditing } = useContext(EditingContext);
 
   const handleError = () => {
     setImgSrc("images/livro_nao_encontrado.png");
+  };
+
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    navigate("/form", { state: { isEditing: true, bookId: bookId } });
+  };
+
+  const handleDelete = () => {
+    navigate("");
   };
 
   return (
@@ -45,7 +60,6 @@ const Card = ({
         onError={handleError}
       />
       <p>{description}</p>
-      {/* <button >Detalhes</button> */}
       <BookDetails
         showModal={showModal}
         onClose={() => {
@@ -57,7 +71,7 @@ const Card = ({
         excerpt={excerpt}
         pageCount={pageCount}
         publishDate={publishDate}
-        autorName={autorName}
+        authorName={authorName}
       />
       <div className={clsx("flex", "w-full")}>
         <button
@@ -71,6 +85,7 @@ const Card = ({
             "ml-2",
             "mr-2"
           )}
+          onClick={handleEdit}
         >
           Editar
         </button>
@@ -84,6 +99,7 @@ const Card = ({
             "w-1/2",
             "mr-2"
           )}
+          onClick={handleDelete}
         >
           Excluir
         </button>

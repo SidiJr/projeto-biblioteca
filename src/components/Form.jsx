@@ -1,59 +1,85 @@
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+import { inputCSS } from "../Helpers";
 
 const Form = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
+  const location = useLocation();
+  const isEditing = location.state?.isEditing || false;
+  const bookId = location.state?.bookId;
+  const [bookData, setBookData] = useState();
+
   const onSubmit = async (data) => {
-    const publishDate = new Date(data["Data de Lançamento"]);
-    const isoPublishDate = publishDate.toISOString();
-
-    const authorData = {
-      firstName: data["Nome do Autor"],
-      lastName: data["Sobrenome do Autor"],
-    };
-
-    const bookData = {
+    const bookAdd = {
       title: data.Título,
       description: data.Descrição,
       excerpt: data.Sinopse,
       pageCount: Number(data["Número de Páginas"]),
-      publishDate: isoPublishDate,
+      publishDate: data["Data de Lançamento"],
     };
 
-    try {
-      const authorResponse = await axios.post(
-        "https://fakerestapi.azurewebsites.net/api/v1/Authors",
-        authorData
-      );
-      console.log("Autor adicionado com sucesso:", authorResponse.data);
-
-      const bookResponse = await axios.post(
-        "https://fakerestapi.azurewebsites.net/api/v1/Books",
-        {
-          ...bookData,
-          authorId: authorResponse.data.id,
-        }
-      );
-      console.log("Livro adicionado com sucesso:", bookResponse.data);
-      toast.success("Livro adicionado com sucesso!");
-    } catch (error) {
-      console.error("Erro ao adicionar livro:", error);
-      toast.error("Erro ao adicionar livro.");
+    if (!isEditing) {
+      axios
+        .post("https://fakerestapi.azurewebsites.net/api/v1/Books/", bookAdd)
+        .then((response) => {
+          console.log("Livro adicionado:", response.data);
+          toast.success("Livro adicionado com sucesso!");
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Erro ao adicionar o livro.")
+        });
+    } else if (isEditing) {
+      axios
+        .put(`https://fakerestapi.azurewebsites.net/api/v1/Books/${bookId}`, bookAdd)
+        .then((response) => {
+          console.log("Livro alterado:", response.data);
+          toast.success("Livro alterado com sucesso!");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
+
+  useEffect(() => {
+    if (isEditing) {
+      axios
+        .get(`https://fakerestapi.azurewebsites.net/api/v1/Books/${bookId}`)
+        .then((response) => {
+          const { title, description, excerpt, pageCount, publishDate } = response.data;
+          setValue("Título", title);
+          setValue("Descrição", description);
+          setValue("Sinopse", excerpt);
+          setValue("Número de Páginas", pageCount);
+          setValue("Data de Lançamento", new Date(publishDate).toISOString().split("T")[0]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setValue("Título", "");
+      setValue("Descrição", "");
+      setValue("Sinopse", "");
+      setValue("Número de Páginas", "");
+      setValue("Data de Lançamento", "");
+    }
+  }, [isEditing, bookId, setValue]);
 
   return (
     <div
       className={clsx(
-        "flex justify-center items-center min-h-screen bg-gray-100"
+        "flex justify-center items-center"
       )}
     >
       <form
@@ -68,33 +94,12 @@ const Form = () => {
           "max-w-lg"
         )}
       >
-        <h2
-          className={clsx(
-            "text-2xl",
-            "font-bold",
-            "text-gray-800",
-            "text-center"
-          )}
-        >
-          Adicionar Livro
-        </h2>
-
         <div className="space-y-4">
           <input
             type="text"
             placeholder="Título"
             {...register("Título", { required: "Título é obrigatório." })}
-            className={clsx(
-              "w-full",
-              "px-4",
-              "py-2",
-              "border",
-              "border-gray-300",
-              "rounded-lg",
-              "focus:outline-none",
-              "focus:ring-2",
-              "focus:ring-green-500"
-            )}
+            className={clsx(inputCSS)}
           />
           {errors.Título && (
             <p className="text-red-500 text-sm">{errors.Título.message}</p>
@@ -103,17 +108,7 @@ const Form = () => {
           <textarea
             placeholder="Descrição"
             {...register("Descrição", { required: "Descrição é obrigatória." })}
-            className={clsx(
-              "w-full",
-              "px-4",
-              "py-2",
-              "border",
-              "border-gray-300",
-              "rounded-lg",
-              "focus:outline-none",
-              "focus:ring-2",
-              "focus:ring-green-500"
-            )}
+            className={clsx(inputCSS)}
           />
           {errors.Descrição && (
             <p className="text-red-500 text-sm">{errors.Descrição.message}</p>
@@ -124,21 +119,11 @@ const Form = () => {
             {...register("Sinopse", {
               required: "Sinopse é obrigatória.",
               maxLength: {
-                value: 200,
+                value: 300,
                 message: "Sinopse deve ter até 200 caracteres.",
               },
             })}
-            className={clsx(
-              "w-full",
-              "px-4",
-              "py-2",
-              "border",
-              "border-gray-300",
-              "rounded-lg",
-              "focus:outline-none",
-              "focus:ring-2",
-              "focus:ring-green-500"
-            )}
+            className={clsx(inputCSS)}
           />
           {errors.Sinopse && (
             <p className="text-red-500 text-sm">{errors.Sinopse.message}</p>
@@ -151,17 +136,7 @@ const Form = () => {
               required: "Número de Páginas é obrigatório.",
               min: { value: 1, message: "Deve ser maior que 0." },
             })}
-            className={clsx(
-              "w-full",
-              "px-4",
-              "py-2",
-              "border",
-              "border-gray-300",
-              "rounded-lg",
-              "focus:outline-none",
-              "focus:ring-2",
-              "focus:ring-green-500"
-            )}
+            className={clsx(inputCSS)}
           />
           {errors["Número de Páginas"] && (
             <p className="text-red-500 text-sm">
@@ -174,97 +149,30 @@ const Form = () => {
             {...register("Data de Lançamento", {
               required: "Data de Lançamento é obrigatória.",
             })}
-            className={clsx(
-              "w-full",
-              "px-4",
-              "py-2",
-              "border",
-              "border-gray-300",
-              "rounded-lg",
-              "focus:outline-none",
-              "focus:ring-2",
-              "focus:ring-green-500"
-            )}
+            className={clsx(inputCSS)}
           />
           {errors["Data de Lançamento"] && (
             <p className="text-red-500 text-sm">
               {errors["Data de Lançamento"].message}
             </p>
           )}
-
-          <input
-            type="text"
-            placeholder="Nome do Autor"
-            {...register("Nome do Autor", {
-              required: "Nome do Autor é obrigatório.",
-              maxLength: {
-                value: 50,
-                message: "Nome do Autor deve ter no máximo 50 caracteres.",
-              },
-            })}
-            className={clsx(
-              "w-full",
-              "px-4",
-              "py-2",
-              "border",
-              "border-gray-300",
-              "rounded-lg",
-              "focus:outline-none",
-              "focus:ring-2",
-              "focus:ring-green-500"
-            )}
-          />
-          {errors["Nome do Autor"] && (
-            <p className="text-red-500 text-sm">
-              {errors["Nome do Autor"].message}
-            </p>
-          )}
-
-          <input
-            type="text"
-            placeholder="Sobrenome do Autor"
-            {...register("Sobrenome do Autor", {
-              required: "Sobrenome do Autor é obrigatório.",
-              maxLength: {
-                value: 79,
-                message: "Sobrenome do Autor deve ter no máximo 79 caracteres.",
-              },
-            })}
-            className={clsx(
-              "w-full",
-              "px-4",
-              "py-2",
-              "border",
-              "border-gray-300",
-              "rounded-lg",
-              "focus:outline-none",
-              "focus:ring-2",
-              "focus:ring-green-500"
-            )}
-          />
-          {errors["Sobrenome do Autor"] && (
-            <p className="text-red-500 text-sm">
-              {errors["Sobrenome do Autor"].message}
-            </p>
-          )}
         </div>
-
         <button
           type="submit"
           className={clsx(
-            "bg-green-500",
+            "bg-blue-400",
             "text-white",
             "px-4",
             "py-2",
             "rounded-lg",
             "w-full",
-            "hover:bg-green-600",
+            "hover:bg-blue-300",
             "focus:outline-none",
             "focus:ring-2",
-            "focus:ring-green-500"
+            "focus:ring-blue-300"
           )}
         >
-          Adicionar Livro
+          {isEditing ? "Atualizar Livro" : "Adicionar Livro"}
         </button>
       </form>
     </div>

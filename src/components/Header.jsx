@@ -6,16 +6,19 @@ import SubHeader from "./SubHeader";
 function Header() {
   const [title, setTitle] = useState("");
   const location = useLocation();
+  const isEditing = location.state?.isEditing || false;
 
   useEffect(() => {
     if (location.pathname === "/") {
       setTitle("Home");
     } else if (location.pathname === "/books") {
       setTitle("Livros");
-    } else if (location.pathname === "/form") {
-      setTitle("Cadastrar Livro");
+    } else if (location.pathname === "/form" && !isEditing) {
+      setTitle("Adicionar Livro");
+    } else if (location.pathname === "/form" && isEditing) {
+      setTitle("Editar Livro");
     } else {
-      setTitle("");
+      setTitle("Biblioteca");
     }
   }, [location]);
 

@@ -1,14 +1,9 @@
 import clsx from "clsx";
-import React, { useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { EditingContext } from "../contexts/EditingContext";
 
 const SubHeader = ({ title }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate("/form");
-  };
-
   return (
     <div
       className={clsx(
@@ -29,23 +24,6 @@ const SubHeader = ({ title }) => {
             src="images/logo_branco.png"
             alt="Logo"
           />
-        </div>
-        <div className={clsx("flex", "w-1/4", "justify-center")}>
-          <button
-            className={clsx(
-              "bg-green-400",
-              "rounded-md",
-              "hover:bg-green-300",
-              "h-1/2",
-              "p-2",
-              "text-white",
-              "flex",
-              "self-center"
-            )}
-            onClick={handleClick}
-          >
-            Adicionar Livro
-          </button>
         </div>
         <div className={clsx("flex", "w-1/4", "justify-center")}>
           <h1
