@@ -36,6 +36,7 @@ const Card = ({
     axios
       .delete(`https://fakerestapi.azurewebsites.net/api/v1/Books/${bookId}`)
       .then((response) => {
+        //throw new Error();
         console.log("Livro deletado, id:", bookId);
         toast.success("Livro deletado com sucesso!");
       })
