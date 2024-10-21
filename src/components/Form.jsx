@@ -32,25 +32,32 @@ const Form = () => {
       axios
         .post("https://fakerestapi.azurewebsites.net/api/v1/Books/", bookAdd)
         .then((response) => {
+          //throw new Error();
           console.log("Livro adicionado:", response.data);
           toast.success("Livro adicionado com sucesso!");
+          reset();
         })
         .catch((err) => {
           console.log(err);
-          toast.error("Erro ao adicionar o livro.")
+          toast.error("Erro ao adicionar o livro.");
         });
     } else if (isEditing) {
       axios
-        .put(`https://fakerestapi.azurewebsites.net/api/v1/Books/${bookId}`, bookAdd)
+        .put(
+          `https://fakerestapi.azurewebsites.net/api/v1/Books/${bookId}`,
+          bookAdd
+        )
         .then((response) => {
+          //throw new Error();
           console.log("Livro alterado:", response.data);
           toast.success("Livro alterado com sucesso!");
+          reset();
         })
         .catch((err) => {
           console.log(err);
+          toast.error("Erro ao alterar o livro.");
         });
     }
-    reset();
   };
 
   useEffect(() => {
@@ -58,12 +65,16 @@ const Form = () => {
       axios
         .get(`https://fakerestapi.azurewebsites.net/api/v1/Books/${bookId}`)
         .then((response) => {
-          const { title, description, excerpt, pageCount, publishDate } = response.data;
+          const { title, description, excerpt, pageCount, publishDate } =
+            response.data;
           setValue("Título", title);
           setValue("Descrição", description);
           setValue("Sinopse", excerpt);
           setValue("Número de Páginas", pageCount);
-          setValue("Data de Lançamento", new Date(publishDate).toISOString().split("T")[0]);
+          setValue(
+            "Data de Lançamento",
+            new Date(publishDate).toISOString().split("T")[0]
+          );
         })
         .catch((err) => {
           console.log(err);
@@ -78,11 +89,7 @@ const Form = () => {
   }, [isEditing, bookId, setValue]);
 
   return (
-    <div
-      className={clsx(
-        "flex justify-center items-center"
-      )}
-    >
+    <div className={clsx("flex justify-center items-center")}>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={clsx(

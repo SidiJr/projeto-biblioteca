@@ -1,7 +1,4 @@
 import clsx from "clsx";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { EditingContext } from "../contexts/EditingContext";
 
 const SubHeader = ({ title }) => {
   return (

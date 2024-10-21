@@ -49,7 +49,10 @@ const Card = ({
     <div
       className={clsx(
         "bg-white",
-        "w-1/5",
+        "w-1/2",
+        "sm:w-1/3",
+        "lg:w-1/4",
+        "xl:w-1/5",
         "flex",
         "m-4",
         "flex-col",
