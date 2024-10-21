@@ -12,15 +12,19 @@ function Home() {
     navigate("/form");
   };
 
+  const handleList = () => {
+    navigate("/books");
+  };
+
   return (
     <div
       className={clsx(
-        "h-screen",
         "flex",
         "flex-col",
         "items-center",
         "justify-center",
-        "gap-10"
+        "gap-4",
+        "mt-24"
       )}
     >
       <h1 className={clsx("text-5xl", "text-green-600", "mb-10")}>
@@ -39,6 +43,20 @@ function Home() {
         onClick={handleAdd}
       >
         Adicionar Livro
+      </button>
+      <button
+        className={clsx(
+          "bg-blue-400",
+          "rounded-md",
+          "hover:bg-blue-300",
+          "p-2",
+          "text-white",
+          "w-full",
+          "max-w-xs"
+        )}
+        onClick={handleList}
+      >
+        Listar Livros
       </button>
     </div>
   );
