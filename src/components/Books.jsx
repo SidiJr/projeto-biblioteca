@@ -11,17 +11,6 @@ const Books = () => {
   const authors = useAuthors();
   const books = useBooks();
 
-  useEffect(() => {
-    axios
-      .get("https://fakerestapi.azurewebsites.net/api/v1/CoverPhotos")
-      .then((response) => {
-        setImages(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   return (
     <div className={clsx("flex", "justify-evenly", "flex-wrap")}>
       {Array.isArray(books) && books.length > 0 ? (

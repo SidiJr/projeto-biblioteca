@@ -22,8 +22,9 @@ const Form = () => {
   const [authors, setAuthors] = useState();
 
   const onSubmit = async (data) => {
-    const selectedAuthorIndex = Number(data.Autor);
-    const selectedAuthor = authors[selectedAuthorIndex];
+    const selectedAuthor = authors.filter((element) => {
+      element._id === data.Autor;
+    });
 
     const bookAdd = {
       title: data.Título,
@@ -40,7 +41,6 @@ const Form = () => {
         .post("/books", bookAdd)
         .then((response) => {
           //throw new Error();
-          console.log("Livro adicionado:", response.data);
           toast.success("Livro adicionado com sucesso!");
           reset();
         })
@@ -49,11 +49,11 @@ const Form = () => {
           toast.error("Erro ao adicionar o livro.");
         });
     } else if (isEditing) {
+      console.log("aqui");
       api
         .put(`/books/${bookId}`, bookAdd)
         .then((response) => {
           //throw new Error();
-          console.log("Livro alterado:", response.data);
           toast.success("Livro alterado com sucesso!");
           reset();
         })
@@ -101,16 +101,6 @@ const Form = () => {
   }, [isEditing, bookId, setValue]);
 
   useEffect(() => {
-    // if (isEditing ) {
-    //   api
-    //     .get(`/authors/${idAuthor}`)
-    //     .then((response) => {
-    //       setAuthors(response.data.docs);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // } else {
     api
       .get(`/authors`)
       .then((response) => {
@@ -119,20 +109,7 @@ const Form = () => {
       .catch((err) => {
         console.log(err);
       });
-    // }
   }, []);
-
-  console.log(location.state?.authorName);
-
-  const [showAuthorName, setShowAuthorName] = useState(false);
-
-  useEffect(() => {
-    if (isEditing && location.state?.authorName) {
-      setShowAuthorName(true);
-    } else {
-      setShowAuthorName(false);
-    }
-  }, [isEditing, location.state?.authorName]);
 
   return (
     <div className={clsx("flex justify-center items-center")}>
@@ -217,14 +194,10 @@ const Form = () => {
             })}
             className={clsx(inputCSS)}
           >
-            <option value="">
-              {showAuthorName
-                ? location.state?.authorName
-                : "Selecione um autor"}
-            </option>
-            {(authors || []).map((element, index) => {
+            <option value="">Selecione um autor</option>
+            {(authors || []).map((element) => {
               return (
-                <option key={index} value={index}>
+                <option key={element._id} value={element._id}>
                   {`${element.firstName} ${element.lastName}`}
                 </option>
               );
