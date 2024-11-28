@@ -15,6 +15,7 @@ const Card = ({
   pageCount,
   authorName,
   bookId,
+  photoUrl,
 }) => {
   const [imgSrc, setImgSrc] = useState(image);
   const [showModal, setShowModal] = useState(false);
@@ -28,7 +29,9 @@ const Card = ({
 
   const handleEdit = () => {
     setIsEditing(true);
-    navigate("/form", { state: { isEditing: true, bookId: bookId } });
+    navigate("/form", {
+      state: { isEditing: true, bookId: bookId, authorName: authorName },
+    });
   };
 
   const handleDelete = (event) => {

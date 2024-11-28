@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 
 const useAuthors = () => {
   const [authors, setAuthors] = useState([]);
@@ -7,8 +7,8 @@ const useAuthors = () => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await axios.get("https://fakerestapi.azurewebsites.net/api/v1/Authors");
-        setAuthors(response.data);
+        const response = await api.get("/authors");
+        setAuthors(response.data.docs);
       } catch (error) {
         console.error("Erro ao buscar autores:", error);
       }

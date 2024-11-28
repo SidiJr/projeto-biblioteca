@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 
 const useBooks = () => {
   const [books, setBooks] = useState([]);
@@ -7,10 +7,11 @@ const useBooks = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("https://fakerestapi.azurewebsites.net/api/v1/books");
-        setBooks(response.data);
+        const response = await api.get("/books");
+        console.log("reposta: ", response.data.docs);
+        setBooks(response.data.docs);
       } catch (error) {
-        console.error("Erro ao buscar autores:", error);
+        console.error("Erro ao buscar livros:", error);
       }
     };
 

@@ -1,10 +1,11 @@
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { inputCSS } from "../Helpers";
+import api from "../api/axios";
 
 const Form = () => {
   const {
@@ -18,19 +19,25 @@ const Form = () => {
   const location = useLocation();
   const isEditing = location.state?.isEditing || false;
   const bookId = location.state?.bookId;
+  const [authors, setAuthors] = useState();
 
   const onSubmit = async (data) => {
+    const selectedAuthorIndex = Number(data.Autor);
+    const selectedAuthor = authors[selectedAuthorIndex];
+
     const bookAdd = {
       title: data.Título,
       description: data.Descrição,
       excerpt: data.Sinopse,
       pageCount: Number(data["Número de Páginas"]),
       publishDate: data["Data de Lançamento"],
+      idAuthor: selectedAuthor._id,
+      photoUrl: "ValorPadrão",
     };
 
     if (!isEditing) {
-      axios
-        .post("https://fakerestapi.azurewebsites.net/api/v1/Books/", bookAdd)
+      api
+        .post("/books", bookAdd)
         .then((response) => {
           //throw new Error();
           console.log("Livro adicionado:", response.data);
@@ -42,11 +49,8 @@ const Form = () => {
           toast.error("Erro ao adicionar o livro.");
         });
     } else if (isEditing) {
-      axios
-        .put(
-          `https://fakerestapi.azurewebsites.net/api/v1/Books/${bookId}`,
-          bookAdd
-        )
+      api
+        .put(`/books/${bookId}`, bookAdd)
         .then((response) => {
           //throw new Error();
           console.log("Livro alterado:", response.data);
@@ -62,11 +66,17 @@ const Form = () => {
 
   useEffect(() => {
     if (isEditing) {
-      axios
-        .get(`https://fakerestapi.azurewebsites.net/api/v1/Books/${bookId}`)
+      api
+        .get(`/books/${bookId}`)
         .then((response) => {
-          const { title, description, excerpt, pageCount, publishDate } =
-            response.data;
+          const {
+            title,
+            description,
+            excerpt,
+            pageCount,
+            publishDate,
+            idAuthor,
+          } = response.data;
           setValue("Título", title);
           setValue("Descrição", description);
           setValue("Sinopse", excerpt);
@@ -75,6 +85,7 @@ const Form = () => {
             "Data de Lançamento",
             new Date(publishDate).toISOString().split("T")[0]
           );
+          setValue("Autor", idAuthor);
         })
         .catch((err) => {
           console.log(err);
@@ -85,8 +96,43 @@ const Form = () => {
       setValue("Sinopse", "");
       setValue("Número de Páginas", "");
       setValue("Data de Lançamento", "");
+      setValue("Autor", "");
     }
   }, [isEditing, bookId, setValue]);
+
+  useEffect(() => {
+    // if (isEditing ) {
+    //   api
+    //     .get(`/authors/${idAuthor}`)
+    //     .then((response) => {
+    //       setAuthors(response.data.docs);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // } else {
+    api
+      .get(`/authors`)
+      .then((response) => {
+        setAuthors(response.data.docs);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // }
+  }, []);
+
+  console.log(location.state?.authorName);
+
+  const [showAuthorName, setShowAuthorName] = useState(false);
+
+  useEffect(() => {
+    if (isEditing && location.state?.authorName) {
+      setShowAuthorName(true);
+    } else {
+      setShowAuthorName(false);
+    }
+  }, [isEditing, location.state?.authorName]);
 
   return (
     <div className={clsx("flex justify-center items-center")}>
@@ -163,6 +209,29 @@ const Form = () => {
             <p className="text-red-500 text-sm">
               {errors["Data de Lançamento"].message}
             </p>
+          )}
+
+          <select
+            {...register("Autor", {
+              required: "Autor é obrigatório.",
+            })}
+            className={clsx(inputCSS)}
+          >
+            <option value="">
+              {showAuthorName
+                ? location.state?.authorName
+                : "Selecione um autor"}
+            </option>
+            {(authors || []).map((element, index) => {
+              return (
+                <option key={index} value={index}>
+                  {`${element.firstName} ${element.lastName}`}
+                </option>
+              );
+            })}
+          </select>
+          {errors["Autor"] && (
+            <p className="text-red-500 text-sm">{errors["Autor"].message}</p>
           )}
         </div>
         <button

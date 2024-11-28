@@ -29,13 +29,13 @@ const Books = () => {
           const findImg = images.find((img) => img.idBook === book.id);
           const imgUrl = findImg?.url;
           const findAuthor = authors.find(
-            (author) => author.idBook === book.id
+            (author) => book.idAuthor === author._id
           );
           const authorName = findAuthor?.firstName + " " + findAuthor?.lastName;
           return (
             <Card
-              key={book.id}
-              bookId={book.id}
+              key={book._id}
+              bookId={book._id}
               title={book.title}
               image={imgUrl}
               description={book.description}
@@ -43,6 +43,7 @@ const Books = () => {
               pageCount={book.pageCount}
               publishDate={book.publishDate}
               authorName={authorName}
+              photoUrl={book.photoUrl}
             />
           );
         })
