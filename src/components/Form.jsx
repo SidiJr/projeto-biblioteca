@@ -207,6 +207,20 @@ const Form = () => {
           {errors["Autor"] && (
             <p className="text-red-500 text-sm">{errors["Autor"].message}</p>
           )}
+
+          <input
+            type="text"
+            placeholder="Insira a url da foto do livro"
+            {...register("Foto do Livro", {
+              required: "Foto do Livro é obrigatório."
+            })}
+            className={clsx(inputCSS)}
+          />
+          {errors["Foto do Livro"] && (
+            <p className="text-red-500 text-sm">
+              {errors["Foto do Livro"].message}
+            </p>
+          )}
         </div>
         <button
           type="submit"
