@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { inputCSS } from "../Helpers";
@@ -22,9 +21,11 @@ const Form = () => {
   const [authors, setAuthors] = useState();
 
   const onSubmit = async (data) => {
-    const selectedAuthor = authors.filter((element) => {
-      element._id === data.Autor;
-    });
+    const selectedAuthor = isEditing
+      ? authors.filter((element) => {
+          element._id === data.Autor;
+        })
+      : data.Autor;
 
     const bookAdd = {
       title: data.Título,
@@ -32,7 +33,7 @@ const Form = () => {
       excerpt: data.Sinopse,
       pageCount: Number(data["Número de Páginas"]),
       publishDate: data["Data de Lançamento"],
-      idAuthor: selectedAuthor._id,
+      idAuthor: isEditing ? selectedAuthor._id : selectedAuthor,
       photoUrl: "ValorPadrão",
     };
 

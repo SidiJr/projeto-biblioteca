@@ -3,8 +3,8 @@ import React, { useContext, useState } from "react";
 import BookDetails from "./BookDetails";
 import { useNavigate } from "react-router-dom";
 import { EditingContext } from "../contexts/EditingContext";
-import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../api/axios";
 
 const Card = ({
   title,
@@ -16,6 +16,7 @@ const Card = ({
   authorName,
   bookId,
   photoUrl,
+  setBooks,
 }) => {
   const [imgSrc, setImgSrc] = useState(image);
   const [showModal, setShowModal] = useState(false);
@@ -36,11 +37,12 @@ const Card = ({
 
   const handleDelete = (event) => {
     event.stopPropagation();
-    axios
-      .delete(`https://fakerestapi.azurewebsites.net/api/v1/Books/${bookId}`)
+    api
+      .delete(`books/${bookId}`)
       .then((response) => {
-        //throw new Error();
-        console.log("Livro deletado, id:", bookId);
+        setBooks((prev) => {
+          return prev.filter((book) => book._id !== bookId);
+        });
         toast.success("Livro deletado com sucesso!");
       })
       .catch((err) => {

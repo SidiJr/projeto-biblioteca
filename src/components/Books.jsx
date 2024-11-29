@@ -3,13 +3,34 @@ import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import Loading from "./Loading";
-import useAuthors from "../hooks/useAuthors";
-import useBooks from "../hooks/useBooks";
+import api from "../api/axios";
 
 const Books = () => {
   const [images, setImages] = useState([]);
-  const authors = useAuthors();
-  const books = useBooks();
+  const [authors, setAuthors] = useState([]);
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    api
+      .get(`/authors`)
+      .then((response) => {
+        setAuthors(response.data.docs);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .get(`/books`)
+      .then((response) => {
+        setBooks(response.data.docs);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div className={clsx("flex", "justify-evenly", "flex-wrap")}>
@@ -33,6 +54,7 @@ const Books = () => {
               publishDate={book.publishDate}
               authorName={authorName}
               photoUrl={book.photoUrl}
+              setBooks={setBooks}
             />
           );
         })
