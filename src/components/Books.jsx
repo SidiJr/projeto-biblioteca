@@ -6,7 +6,6 @@ import Loading from "./Loading";
 import api from "../api/axios";
 
 const Books = () => {
-  const [images, setImages] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [books, setBooks] = useState([]);
 
@@ -36,8 +35,6 @@ const Books = () => {
     <div className={clsx("flex", "justify-evenly", "flex-wrap")}>
       {Array.isArray(books) && books.length > 0 ? (
         books.map((book) => {
-          const findImg = images.find((img) => img.idBook === book.id);
-          const imgUrl = findImg?.url;
           const findAuthor = authors.find(
             (author) => book.idAuthor === author._id
           );
@@ -47,7 +44,7 @@ const Books = () => {
               key={book._id}
               bookId={book._id}
               title={book.title}
-              image={imgUrl}
+              image={book.photoUrl}
               description={book.description}
               excerpt={book.excerpt}
               pageCount={book.pageCount}

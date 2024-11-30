@@ -20,7 +20,22 @@ const Form = () => {
   const bookId = location.state?.bookId;
   const [authors, setAuthors] = useState();
 
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
   const onSubmit = async (data) => {
+
+    let base64Image = null;
+    if (data["Foto do Livro"]) {
+      base64Image = await convertToBase64(data["Foto do Livro"][0]);
+    }
+
     const selectedAuthor = isEditing
       ? authors.filter((element) => {
           element._id === data.Autor;
@@ -34,7 +49,7 @@ const Form = () => {
       pageCount: Number(data["Número de Páginas"]),
       publishDate: data["Data de Lançamento"],
       idAuthor: isEditing ? selectedAuthor._id : selectedAuthor,
-      photoUrl: "ValorPadrão",
+      photoUrl: base64Image,
     };
 
     if (!isEditing) {
@@ -209,7 +224,7 @@ const Form = () => {
           )}
 
           <input
-            type="text"
+            type="file"
             placeholder="Insira a url da foto do livro"
             {...register("Foto do Livro", {
               required: "Foto do Livro é obrigatório."
