@@ -65,7 +65,6 @@ const Form = () => {
           toast.error("Erro ao adicionar o livro.");
         });
     } else if (isEditing) {
-      console.log("aqui");
       api
         .put(`/books/${bookId}`, bookAdd)
         .then((response) => {

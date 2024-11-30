@@ -7,6 +7,8 @@ import Books from "./components/Books.jsx";
 import Home from "./components/Home.jsx";
 import ErrorPage from "./components/ErrorPage.jsx";
 import Form from "./components/Form.jsx";
+import FormAuthors from "./components/FormAuthors.jsx";
+import Authors from "./components/Authors.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +28,15 @@ const router = createBrowserRouter([
         path: "/form",
         element: <Form />,
       },
-    ]
+      {
+        path: "/authors",
+        element: <Authors />,
+      },
+      {
+        path: "/formauthors",
+        element: <FormAuthors />,
+      },
+    ],
   },
 ]);
 

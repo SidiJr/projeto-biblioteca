@@ -17,6 +17,12 @@ function Header() {
       setTitle("Adicionar Livro");
     } else if (location.pathname === "/form" && isEditing) {
       setTitle("Editar Livro");
+    }else if (location.pathname === "/authors") {
+      setTitle("Autores");
+    }else if (location.pathname === "/formauthors" && !isEditing) {
+      setTitle("Adicionar Autor");
+    }else if (location.pathname === "/formauthors" && isEditing) {
+      setTitle("Editar Autor");
     } else {
       setTitle("Biblioteca");
     }
@@ -50,6 +56,11 @@ function Header() {
             <li className={clsx("text-white", "text-sm", "p-2")}>
               <Link to="/books" onClick={() => setTitle("Livros")}>
                 Livros
+              </Link>
+            </li>
+            <li className={clsx("text-white", "text-sm", "p-2")}>
+              <Link to="/authors" onClick={() => setTitle("Autores")}>
+                Autores
               </Link>
             </li>
           </ul>
