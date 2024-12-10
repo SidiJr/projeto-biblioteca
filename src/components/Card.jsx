@@ -75,7 +75,8 @@ const Card = ({
     >
       <h1 className={clsx("text-green-600", "text-xl")}>{title}</h1>
       <img
-        src={imgSrc}
+        // src={imgSrc}
+        src="images/livro_nao_encontrado.png"
         alt="Foto do livro"
         className={clsx("h-1/2", "object-contain")}
         onError={handleError}

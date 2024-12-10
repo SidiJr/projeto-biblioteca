@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 const BookDetails = ({
@@ -78,7 +78,8 @@ const BookDetails = ({
           {title}
         </h1>
         <img
-          src={image}
+          // src={image}
+          src="images/livro_nao_encontrado.png"
           alt="Foto do livro"
           className={clsx("w-1/4", "object-contain")}
           onError={(e) => {

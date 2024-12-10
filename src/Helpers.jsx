@@ -8,4 +8,9 @@ export const inputCSS = [
   "focus:outline-none",
   "focus:ring-2",
   "focus:ring-green-500",
+  "mb-2"
 ];
+
+export const labelCSS = [
+
+]

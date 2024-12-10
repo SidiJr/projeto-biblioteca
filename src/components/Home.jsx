@@ -7,13 +7,13 @@ function Home() {
   const { setIsEditing } = useContext(EditingContext);
   const navigate = useNavigate();
 
-  const handleAdd = () => {
+  const handleAddBook = () => {
     setIsEditing(false);
     navigate("/form");
   };
 
-  const handleList = () => {
-    navigate("/books");
+  const handleAddAuthor = () => {
+    navigate("/formauthors");
   };
 
   return (
@@ -40,13 +40,13 @@ function Home() {
           "w-full",
           "max-w-xs"
         )}
-        onClick={handleAdd}
+        onClick={handleAddBook}
       >
         Adicionar Livro
       </button>
       <button
         className={clsx(
-          "bg-blue-400",
+          "bg-green-400",
           "rounded-md",
           "hover:bg-blue-300",
           "p-2",
@@ -54,9 +54,9 @@ function Home() {
           "w-full",
           "max-w-xs"
         )}
-        onClick={handleList}
+        onClick={handleAddAuthor}
       >
-        Listar Livros
+        Adicionar Autor
       </button>
     </div>
   );

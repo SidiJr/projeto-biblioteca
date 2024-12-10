@@ -1,9 +1,9 @@
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
-import { inputCSS } from "../Helpers";
+import { useLocation, useNavigate } from "react-router-dom";
+import { inputCSS, labelCSS } from "../Helpers";
 import api from "../api/axios";
 
 const Form = () => {
@@ -19,43 +19,22 @@ const Form = () => {
   const isEditing = location.state?.isEditing || false;
   const bookId = location.state?.bookId;
   const [authors, setAuthors] = useState();
-
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-
-    let base64Image = null;
-    if (data["Foto do Livro"]) {
-      base64Image = await convertToBase64(data["Foto do Livro"][0]);
-    }
-
-    const selectedAuthor = isEditing
-      ? authors.filter((element) => {
-          element._id === data.Autor;
-        })
-      : data.Autor;
-
     const bookAdd = {
       title: data.Título,
       description: data.Descrição,
       excerpt: data.Sinopse,
       pageCount: Number(data["Número de Páginas"]),
       publishDate: data["Data de Lançamento"],
-      idAuthor: isEditing ? selectedAuthor._id : selectedAuthor,
-      photoUrl: base64Image,
+      idAuthor: data.Autor,
     };
 
     if (!isEditing) {
       api
         .post("/books", bookAdd)
-        .then((response) => {
+        .then(() => {
           //throw new Error();
           toast.success("Livro adicionado com sucesso!");
           reset();
@@ -67,10 +46,11 @@ const Form = () => {
     } else if (isEditing) {
       api
         .put(`/books/${bookId}`, bookAdd)
-        .then((response) => {
+        .then(() => {
           //throw new Error();
           toast.success("Livro alterado com sucesso!");
-          reset();
+          // reset();
+          navigate("/books");
         })
         .catch((err) => {
           console.log(err);
@@ -140,7 +120,8 @@ const Form = () => {
           "max-w-lg"
         )}
       >
-        <div className="space-y-4">
+        <div>
+          <label className={clsx(labelCSS)}>Título</label>
           <input
             type="text"
             placeholder="Título"
@@ -150,7 +131,7 @@ const Form = () => {
           {errors.Título && (
             <p className="text-red-500 text-sm">{errors.Título.message}</p>
           )}
-
+          <label className={clsx(labelCSS)}>Descrição</label>
           <textarea
             placeholder="Descrição"
             {...register("Descrição", { required: "Descrição é obrigatória." })}
@@ -159,7 +140,7 @@ const Form = () => {
           {errors.Descrição && (
             <p className="text-red-500 text-sm">{errors.Descrição.message}</p>
           )}
-
+          <label className={clsx(labelCSS)}>Sinopse</label>
           <textarea
             placeholder="Sinopse"
             {...register("Sinopse", {
@@ -174,7 +155,7 @@ const Form = () => {
           {errors.Sinopse && (
             <p className="text-red-500 text-sm">{errors.Sinopse.message}</p>
           )}
-
+          <label className={clsx(labelCSS)}>Número de Páginas</label>
           <input
             type="number"
             placeholder="Número de Páginas"
@@ -189,7 +170,7 @@ const Form = () => {
               {errors["Número de Páginas"].message}
             </p>
           )}
-
+          <label className={clsx(labelCSS)}>Data de Lançamento</label>
           <input
             type="date"
             {...register("Data de Lançamento", {
@@ -202,7 +183,7 @@ const Form = () => {
               {errors["Data de Lançamento"].message}
             </p>
           )}
-
+          <label className={clsx(labelCSS)}>Autor</label>
           <select
             {...register("Autor", {
               required: "Autor é obrigatório.",
@@ -210,7 +191,7 @@ const Form = () => {
             className={clsx(inputCSS)}
           >
             <option value="">Selecione um autor</option>
-            {(authors || []).map((element) => {
+            {authors?.map((element) => {
               return (
                 <option key={element._id} value={element._id}>
                   {`${element.firstName} ${element.lastName}`}
@@ -221,34 +202,20 @@ const Form = () => {
           {errors["Autor"] && (
             <p className="text-red-500 text-sm">{errors["Autor"].message}</p>
           )}
-
-          <input
-            type="file"
-            placeholder="Insira a url da foto do livro"
-            {...register("Foto do Livro", {
-              required: "Foto do Livro é obrigatório."
-            })}
-            className={clsx(inputCSS)}
-          />
-          {errors["Foto do Livro"] && (
-            <p className="text-red-500 text-sm">
-              {errors["Foto do Livro"].message}
-            </p>
-          )}
         </div>
         <button
           type="submit"
           className={clsx(
-            "bg-blue-400",
+            "bg-green-400",
             "text-white",
             "px-4",
             "py-2",
             "rounded-lg",
             "w-full",
-            "hover:bg-blue-300",
+            "hover:bg-green-300",
             "focus:outline-none",
             "focus:ring-2",
-            "focus:ring-blue-300"
+            "focus:ring-green-300"
           )}
         >
           {isEditing ? "Atualizar Livro" : "Adicionar Livro"}

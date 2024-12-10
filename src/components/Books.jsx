@@ -1,6 +1,5 @@
-import axios from "axios";
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "./Card";
 import Loading from "./Loading";
 import api from "../api/axios";
